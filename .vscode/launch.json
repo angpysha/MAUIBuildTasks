@@ -1,0 +1,37 @@
+{
+    "name": "Run TypeScript",
+    "type": "pwa-node",
+    "request": "launch",
+    "internalConsoleOptions": "openOnSessionStart",
+    "stopOnEntry": false,
+    // path to your ts file
+    "args": ["task.ts"],
+    "cwd": "${workspaceRoot}/task",
+    "runtimeArgs": ["--nolazy", "-r", "ts-node/register/transpile-only"],
+    "env": {
+      "NODE_ENV": "development",
+      // param (enter your input params here!)
+      "INPUT_WebhookUrl": "MyVariables",
+      "INPUT_Template": "Empty",
+      "INPUT_Json": "{\"text\":\"I am a test message\",\"attachments\":[{\"text\":\"And here’s an attachment!\"}]}",
+      "INPUT_Separator": ";",
+      // env
+      "AGENT_JOBSTATUS": "Succeeded",
+      "AGENT_NAME": "MyAgent",
+      "BUILD_BUILDID": "5",
+      "BUILD_BUILDNUMBER": "20210108.1",
+      "BUILD_REASON": "Scheduled",
+      "BUILD_REPOSITORY_NAME": "MyRepo",
+      "BUILD_SOURCEBRANCHNAME": "master",
+      "BUILD_SOURCEVERSION": "122a24f",
+      "BUILDCONFIGURATION": "Debug",
+      "BUILDPLATFORM": "Any CPU",
+      "SYSTEM_ACCESSTOKEN": "",
+      "SYSTEM_DEFINITIONNAME": "MyDefinitionName",
+      "SYSTEM_TEAMFOUNDATIONSERVERURI": "https://myurl.de/mycollection/",
+      "SYSTEM_TEAMPROJECT": "PSItraffic",
+      // debug
+      "DEBUG_PAT": "my debug pat"
+    },
+    "skipFiles": ["<node_internals>/**"]
+  }
