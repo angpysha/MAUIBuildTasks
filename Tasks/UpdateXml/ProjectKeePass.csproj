@@ -1,110 +1,93 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFrameworks>net6.0-ios;net6.0-maccatalyst;net6.0-android33.0</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
-		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
-		<OutputType>Exe</OutputType>
-		<RootNamespace>ProjectKeePass</RootNamespace>
-		<UseMaui>true</UseMaui>
-		<SingleProject>true</SingleProject>
-		<ImplicitUsings>enable</ImplicitUsings>
-
-		<!-- Display name -->
-		<ApplicationTitle>ProjectKeePass</ApplicationTitle>
-
-		<!-- App Identifier -->
-		<ApplicationId>testt</ApplicationId>
-		<ApplicationIdGuid>769795E4-91AA-42B4-A75C-E9D6C66E46AD</ApplicationIdGuid>
-
-		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>22</ApplicationVersion>
-
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">13.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
-		<Nullable>warnings</Nullable>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
-
-		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128"/>
-
-		<!-- Images -->
-		<MauiImage Include="Resources\Images\*"/>
-		<MauiFont Include="Resources\Fonts\*"/>
-
-		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
-		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="Resources\Fonts\materialdesignicons-webfont.ttf"/>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="CommunityToolkit.Maui" Version="1.2.0"/>
-	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0"/>
-	  <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3"/>
-	  <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3"/>
-	  <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.5.3"/>
-	  <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.59"/>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Libs\KPCLib\KPCLib.csproj"/>
-	  <ProjectReference Include="..\Submodules\Prism.Maui\src\Prism.DryIoc.Maui\Prism.DryIoc.Maui.csproj"/>
-	  <ProjectReference Include="..\Submodules\Prism.Maui\src\Prism.Maui.Rx\Prism.Maui.Rx.csproj"/>
-	  <ProjectReference Include="..\Submodules\Prism.Maui\src\Prism.Maui\Prism.Maui.csproj"/>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="AppResources.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>AppResources.resx</DependentUpon>
-	  </Compile>
-	  <Compile Update="Pages\ItemsPage\ItemsPage.xaml.cs">
-	    <DependentUpon>ItemsPage.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Update="AppResources.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="Pages\DatabaseSettings\DatabaseSettingsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ItemsPage\ItemsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\MainTabbedPage\MainTabbedPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\PasswordEntry\PasswordEntryPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\StartPage\StartPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Behaviors\"/>
-	  <Folder Include="Platforms\Android\Assets\"/>
-	</ItemGroup>
-
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>net6.0-ios;net6.0-maccatalyst;net6.0-android33.0</TargetFrameworks>
+        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
+        <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
+        <!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
+        <!-- Display name -->
+        <!-- App Identifier -->
+        <!-- Versions -->
+        <OutputType>Exe</OutputType>
+        <RootNamespace>ProjectKeePass</RootNamespace>
+        <UseMaui>true</UseMaui>
+        <SingleProject>true</SingleProject>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <ApplicationTitle>testffdfd</ApplicationTitle>
+        <ApplicationId>111111</ApplicationId>
+        <ApplicationIdGuid>769795E4-91AA-42B4-A75C-E9D6C66E46AD</ApplicationIdGuid>
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>22</ApplicationVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">13.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+        <Nullable>warnings</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <!-- App Icon -->
+        <!-- Splash Screen -->
+        <!-- Images -->
+        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128"/>
+        <MauiImage Include="Resources\Images\*"/>
+        <MauiFont Include="Resources\Fonts\*"/>
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="Resources\Fonts\materialdesignicons-webfont.ttf"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Maui" Version="1.2.0"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.3"/>
+        <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.3"/>
+        <PackageReference Include="Microsoft.AppCenter.Distribute" Version="4.5.3"/>
+        <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.59"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Libs\KPCLib\KPCLib.csproj"/>
+        <ProjectReference Include="..\Submodules\Prism.Maui\src\Prism.DryIoc.Maui\Prism.DryIoc.Maui.csproj"/>
+        <ProjectReference Include="..\Submodules\Prism.Maui\src\Prism.Maui.Rx\Prism.Maui.Rx.csproj"/>
+        <ProjectReference Include="..\Submodules\Prism.Maui\src\Prism.Maui\Prism.Maui.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="AppResources.Designer.cs">
+            <DesignTime>True</DesignTime>
+            <AutoGen>True</AutoGen>
+            <DependentUpon>AppResources.resx</DependentUpon>
+        </Compile>
+        <Compile Update="Pages\ItemsPage\ItemsPage.xaml.cs">
+            <DependentUpon>ItemsPage.xaml</DependentUpon>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="AppResources.resx">
+            <Generator>ResXFileCodeGenerator</Generator>
+            <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+        </EmbeddedResource>
+    </ItemGroup>
+    <ItemGroup>
+        <MauiXaml Update="Pages\DatabaseSettings\DatabaseSettingsPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
+        <MauiXaml Update="Pages\ItemsPage\ItemsPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
+        <MauiXaml Update="Pages\MainTabbedPage\MainTabbedPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
+        <MauiXaml Update="Pages\PasswordEntry\PasswordEntryPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
+        <MauiXaml Update="Pages\StartPage\StartPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </MauiXaml>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Behaviors\"/>
+        <Folder Include="Platforms\Android\Assets\"/>
+    </ItemGroup>
 </Project>

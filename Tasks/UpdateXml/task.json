@@ -1,16 +1,16 @@
 {
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
     "id": "0c6f1ae4-8f1a-4a3f-a75a-09cbfc2dbe43",
-    "name": "change-xml-node-task-private",
-    "friendlyName": "Update xml node value",
-    "description": "Update xml node value",
+    "name": "update-csproj-node-task",
+    "friendlyName": "Update csproj node value",
+    "description": "Update csproj node value",
     "helpMarkDown": "",
     "category": "Utility",
     "author": "Andrii Petrovskyi",
     "version": {
         "Major": 0,
         "Minor": 2,
-        "Patch": 1
+        "Patch": 5
     },
     "instanceNameFormat": "Echo $(samplestring)",
     "inputs": [

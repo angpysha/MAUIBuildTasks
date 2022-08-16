@@ -1,8 +1,8 @@
 import tl = require('azure-pipelines-task-lib/task');
 import trm = require('azure-pipelines-task-lib/toolrunner');
 import fs = require('fs');
-import { DOMParserImpl as dom } from 'xmldom-ts';
-import * as xpath from 'xpath-ts';
+//import { DOMParserImpl as dom } from 'xmldom-ts';
+//import * as xpath from 'xpath-ts';
 
 /**
  * Find all filenames starting from `rootDirectory` that match a wildcard pattern.
@@ -64,44 +64,47 @@ async function run() {
         throw new Error(`Values cannnot be empty`);
     }
 
-    if (printFile) {
-        console.log(`Values to update ${values}`);
-    }
-
-     var xml = fs.readFileSync(path)
-
-    var doc = new dom().parseFromString(xml.toString());
     let regex = new RegExp("\n");
     let valuesSplited = values.split(regex);
 
-    // if (printFile) {
-    //     console.log(`Start patching. Original file\n${xml}`)
-    // }
+    if (printFile) {
+        console.log(`Values to update ${valuesSplited}`);
+    }
 
-    // for (let pair of valuesSplited) {
-    //     let itemValueArray = pair.split("=");
+    var xml = fs.readFileSync(path);
 
-    //     if (itemValueArray.length > 0) {
-    //         let key = itemValueArray[0];
-    //         let value = itemValueArray[1];
+    if (printFile) {
+        console.log(`Start patching. Original file\n${xml}`)
+    }
+    const { DOMParser } = require('xmldom')
 
-    //         const nodes = <any>xpath.select(key, doc);
+    var convert = require('xml-js');
 
-    //         if (nodes != undefined) {
-    //             nodes[0].textContent = value;
-    //         }
-    //     }
-    // }
+    var doc = convert.xml2js(xml, { compact: true, spaces: 4 });
 
-    // const s = new XMLSerializer();
+    var xpath = require("xml2js-xpath");
 
-    // let newFileContent = s.serializeToString(doc);
+    for (let pair of valuesSplited) {
+        let itemValueArray = pair.split("=");
 
-    // if (printFile) {
-    //     console.log(`Start patching. Patched file\n${newFileContent}`)
-    // }
-    // tl.writeFile(filePath, newFileContent, "utf8");
-    // console.log(newFileContent);
+        if (itemValueArray.length > 0) {
+            let key = itemValueArray[0];
+            let value = itemValueArray[1];
+
+            const nodes = xpath.find(doc, key);
+            console.log(nodes[0]);
+            if (nodes != undefined) {
+                nodes[0]["_text"] = value;
+
+            }
+        }
+    }
+    let newFileContent = convert.js2xml(doc, { compact: true, spaces: 4 });
+
+    if (printFile) {
+        console.log(`Start patching. Patched file\n${newFileContent}`)
+    }
+    tl.writeFile(path, newFileContent, "utf8");
 }
 
 run();

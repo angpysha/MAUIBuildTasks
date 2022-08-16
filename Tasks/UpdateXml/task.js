@@ -11,7 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const tl = require("azure-pipelines-task-lib/task");
 const fs = require("fs");
-const xmldom_ts_1 = require("xmldom-ts");
+//import { DOMParserImpl as dom } from 'xmldom-ts';
+//import * as xpath from 'xpath-ts';
 /**
  * Find all filenames starting from `rootDirectory` that match a wildcard pattern.
  * @param solutionPattern A filename pattern to evaluate, possibly containing wildcards.
@@ -62,34 +63,36 @@ function run() {
         if (values === undefined) {
             throw new Error(`Values cannnot be empty`);
         }
-        if (printFile) {
-            console.log(`Values to update ${values}`);
-        }
-        var xml = fs.readFileSync(path);
-        var doc = new xmldom_ts_1.DOMParserImpl().parseFromString(xml.toString());
         let regex = new RegExp("\n");
         let valuesSplited = values.split(regex);
-        // if (printFile) {
-        //     console.log(`Start patching. Original file\n${xml}`)
-        // }
-        // for (let pair of valuesSplited) {
-        //     let itemValueArray = pair.split("=");
-        //     if (itemValueArray.length > 0) {
-        //         let key = itemValueArray[0];
-        //         let value = itemValueArray[1];
-        //         const nodes = <any>xpath.select(key, doc);
-        //         if (nodes != undefined) {
-        //             nodes[0].textContent = value;
-        //         }
-        //     }
-        // }
-        // const s = new XMLSerializer();
-        // let newFileContent = s.serializeToString(doc);
-        // if (printFile) {
-        //     console.log(`Start patching. Patched file\n${newFileContent}`)
-        // }
-        // tl.writeFile(filePath, newFileContent, "utf8");
-        // console.log(newFileContent);
+        if (printFile) {
+            console.log(`Values to update ${valuesSplited}`);
+        }
+        var xml = fs.readFileSync(path);
+        if (printFile) {
+            console.log(`Start patching. Original file\n${xml}`);
+        }
+        const { DOMParser } = require('xmldom');
+        var convert = require('xml-js');
+        var doc = convert.xml2js(xml, { compact: true, spaces: 4 });
+        var xpath = require("xml2js-xpath");
+        for (let pair of valuesSplited) {
+            let itemValueArray = pair.split("=");
+            if (itemValueArray.length > 0) {
+                let key = itemValueArray[0];
+                let value = itemValueArray[1];
+                const nodes = xpath.find(doc, key);
+                console.log(nodes[0]);
+                if (nodes != undefined) {
+                    nodes[0]["_text"] = value;
+                }
+            }
+        }
+        let newFileContent = convert.js2xml(doc, { compact: true, spaces: 4 });
+        if (printFile) {
+            console.log(`Start patching. Patched file\n${newFileContent}`);
+        }
+        tl.writeFile(path, newFileContent, "utf8");
     });
 }
 run();
