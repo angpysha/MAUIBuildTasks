@@ -1,7 +1,7 @@
 {
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
     "id": "0b592257-47c8-4b2d-b194-91c68ab53a36",
-    "name": "change-xamarin-android-activity-name",
+    "name": "change-xamarin-android-activity-name-private",
     "friendlyName": "Change Xamarin Android activity name",
     "description": "Change Xamarin Android activity name",
     "helpMarkDown": "",

@@ -15,12 +15,12 @@
 		<ApplicationTitle>ProjectKeePass</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>io.github.angpysha.projectkeepass</ApplicationId>
+		<ApplicationId>testt</ApplicationId>
 		<ApplicationIdGuid>769795E4-91AA-42B4-A75C-E9D6C66E46AD</ApplicationIdGuid>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+		<ApplicationVersion>22</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">13.0</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>

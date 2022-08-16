@@ -1,34 +1,34 @@
 {
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
     "id": "0c6f1ae4-8f1a-4a3f-a75a-09cbfc2dbe43",
-    "name": "change-xml-node-task",
-    "friendlyName": "Change xml node value",
-    "description": "Change xml node value",
+    "name": "change-xml-node-task-private",
+    "friendlyName": "Update xml node value",
+    "description": "Update xml node value",
     "helpMarkDown": "",
     "category": "Utility",
     "author": "Andrii Petrovskyi",
     "version": {
         "Major": 0,
-        "Minor": 1,
-        "Patch": 0
+        "Minor": 2,
+        "Patch": 1
     },
     "instanceNameFormat": "Echo $(samplestring)",
     "inputs": [
         {
             "name": "sourceFile",
             "type": "filePath",
-            "label": "Activity file path",
+            "label": "Xml file path",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": "File path to launcher activity"
+            "helpMarkDown": "Path to xml file"
         },
         {
             "name": "values",
-            "type": "string",
+            "type": "multiLine",
             "label": "Values",
             "defaultValue": "",
             "required": true,
-            "helpMarkDown": ""
+            "helpMarkDown": "//sample=value\n//nextxpathvalue[0]=test2"
         },
         {
             "name": "printFile",

@@ -1,0 +1,55 @@
+{
+    "manifestVersion": 1,
+    "id": "maui-build-tasks-private",
+    "name": "MAUI Azure devops build tasks",
+    "version": "0.1.5",
+    "public" : false,
+    "publisher": "AndriiPetrovskyi",
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "description": "Tools for building/releasing with MAUI apps.",
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "content": {
+        "details": {
+          "path": "overview.md"
+        }
+    },  
+    "icons": {
+        "default": "images/extension-icon.png"        
+    },
+    "files": [
+        {
+            "path": "Tasks/ChangeAndroidActivityName"
+        },
+        {
+            "path": "Tasks/UpdateXml"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "change-xamarin-android-activity-name-private",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/ChangeAndroidActivityName"
+            }
+        },
+        {
+            "id": "change-xml-node-task-private",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UpdateXml"
+            }
+        }
+    ]
+}

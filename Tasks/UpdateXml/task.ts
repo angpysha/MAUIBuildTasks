@@ -8,7 +8,7 @@ import * as xpath from 'xpath-ts';
  * Find all filenames starting from `rootDirectory` that match a wildcard pattern.
  * @param solutionPattern A filename pattern to evaluate, possibly containing wildcards.
  */
- function expandSolutionWildcardPatterns(solutionPattern: string): string {
+function expandSolutionWildcardPatterns(solutionPattern: string): string {
     let defDir = tl.getVariable("Build.SourcesDirectory");
     if (defDir === undefined) {
         throw new Error("Build.SourcesDirectory undefined");
@@ -24,19 +24,18 @@ import * as xpath from 'xpath-ts';
 
         return result;
     } else {
-        throw new Error (tl.loc('SolutionDoesNotExist', solutionPattern));
+        throw new Error(tl.loc('SolutionDoesNotExist', solutionPattern));
     }
 }
 
-function getCorrectPropertyGroup(elements: Array<any>, name: string) : any {
+function getCorrectPropertyGroup(elements: Array<any>, name: string): any {
     for (var el of elements) {
-            var innerElements = <Array<any>>el.elements;
-            var contains = innerElements.some(x => x.name == name);
+        var innerElements = <Array<any>>el.elements;
+        var contains = innerElements.some(x => x.name == name);
 
-            if (contains)
-            {
-                return el;
-            }
+        if (contains) {
+            return el;
+        }
     }
 
     return null;
@@ -50,14 +49,12 @@ async function run() {
     if (filePath === undefined) {
         throw new Error(`File path cannot be empty`);
     }
-    
+
     let path = expandSolutionWildcardPatterns(filePath);
-    if (printFile) 
-    {
+    if (printFile) {
         console.log(`Path file ${path}`);
     }
-    if (!fs.existsSync(path)) 
-    {
+    if (!fs.existsSync(path)) {
         throw new Error(`The following path does not exists`);
     }
 
@@ -67,34 +64,44 @@ async function run() {
         throw new Error(`Values cannnot be empty`);
     }
 
-
-     var convert = require('xml-js');
+    if (printFile) {
+        console.log(`Values to update ${values}`);
+    }
 
      var xml = fs.readFileSync(path)
 
-
-
-    var options = {ignoreComment: true, alwaysChildren: true};
-    var result = convert.xml2js(xml, options);
-    
-    var items = <Array<any>>result.elements[0].elements;
-
-    var propertyGroups = <Array<any>>items.filter(s => s.name == "PropertyGroup");
     var doc = new dom().parseFromString(xml.toString());
     let regex = new RegExp("\n");
     let valuesSplited = values.split(regex);
 
-    console.log(valuesSplited[0])
-    //const nodes = <any>xpath.select("//Project/PropertyGroup/ApplicationId", doc);
-   // var group = getCorrectPropertyGroup(propertyGroups, )
-    //nodes[0].textContent = "testappp";
-    //console.log(nodes[0].textContent);
-    var s = new XMLSerializer();
+    // if (printFile) {
+    //     console.log(`Start patching. Original file\n${xml}`)
+    // }
 
-    let ssss = s.serializeToString(doc);
+    // for (let pair of valuesSplited) {
+    //     let itemValueArray = pair.split("=");
 
-    tl.writeFile(filePath, ssss, "utf8");
-  //  console.log(ssss);
+    //     if (itemValueArray.length > 0) {
+    //         let key = itemValueArray[0];
+    //         let value = itemValueArray[1];
+
+    //         const nodes = <any>xpath.select(key, doc);
+
+    //         if (nodes != undefined) {
+    //             nodes[0].textContent = value;
+    //         }
+    //     }
+    // }
+
+    // const s = new XMLSerializer();
+
+    // let newFileContent = s.serializeToString(doc);
+
+    // if (printFile) {
+    //     console.log(`Start patching. Patched file\n${newFileContent}`)
+    // }
+    // tl.writeFile(filePath, newFileContent, "utf8");
+    // console.log(newFileContent);
 }
 
 run();
